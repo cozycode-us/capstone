@@ -1,4 +1,6 @@
-__Instructions for development:__
+# CozyCode Capstone Project
+
+## __Instructions for development:__
 
 1. Fork this repository
 2. Clone your fork on your local machine with `git clone <fork URL>`
@@ -9,7 +11,7 @@ __Instructions for development:__
 7. When ready, create a __Pull Request__
 8. Get code reviewed by somebody that hopefully knows what they're doing
 
-__Notes:__
+## __Notes:__
 
 1. You only need to fork the repository once! Make sure to update the fork with the upstream branch every time you want to edit it.
 2. __Make sure your branch is updated at all times__
