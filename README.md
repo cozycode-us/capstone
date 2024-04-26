@@ -7,7 +7,7 @@
 4. __Stage your changes with `git add .`__
 5. Commit your changes with `git commit -m <commit message>`
 6. Push your changes to your branch with `git push`
-7. When ready, create a __Pull Request__. Make sure to request a review from Linus and Shyla on the bar on the right.
+7. When ready, create a __Pull Request__.
 8. Get code reviewed by someone on the Head Development team
 
 ## __Notes:__
