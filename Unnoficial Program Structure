@@ -1,0 +1,31 @@
+This is an idea for how we could seperate our requirements into classes and methods to be better able to reference them. Feel free to make any additions or adjustments! 
+
+
+
+Class - Parking
+(contains all methods required for assigning parking to an employee and assigning filled spaces as unavailable)
+-cartype Enum
+-spacetype Enum
+- openspace array?
+methods
+ carType
+ openSpaces
+ closedSpaces
+ spotNumber
+
+Class - Ticket
+(contains all methods for output of a ticket including an assigned parking space as well as the
+time the space became occupied—and potentially when user is expected to leave—as well as features of
+the designated car ie. color, type, registration numer)
+methods
+ vehicleAssigned
+ ticketTime
+ ticketPrinter
+
+
+
+
+
+ 
+
+ 
