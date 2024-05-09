@@ -43,9 +43,14 @@ public class ParkingGarage {
 
     // Method to print array parking garage
     public void printParkingGarage() {
-        for (int i = 0; i < spaces.length; i++) {
-            for (int j = 0; j < spaces[i].length; j++) {
-                System.out.print(spaces[i][j].getType().toString().charAt(0) + (spaces[i][j].isAvailable() ? " " : "X "));
+        for (ParkingSpace[] row : spaces) {
+            for (ParkingSpace space : row) {
+                if (space != null) {
+                    System.out.print(space.getType().toString().charAt(0) + (space.isAvailable() ? " " : "X "));
+                } else {
+                    // If the ParkingSpace object is null, print a placeholder
+                    System.out.print("- ");
+                }
             }
             System.out.println();
         }
