@@ -3,7 +3,7 @@ package cozycode.capstone.parking;
 public class ParkingGarage {
     private final ParkingSpot[][] parkingSpots;
 
-    public ParkingGarage(int numRows, int numCols) {
+    public ParkingGarage(int numRows, int numCols, int HANDICAP, int OVERSIZED, int EV, int CARPOOL) {
         parkingSpots = new ParkingSpot[numRows][numCols];
 
         // Initialize all spots as regular parking spots
@@ -17,16 +17,16 @@ public class ParkingGarage {
         ParkingSpot[] firstRow = parkingSpots[0];
         int currentSpot = 0;
         while (currentSpot < 140) {
-            for (int i = 0; i < 20 && currentSpot < firstRow.length; i++) {
+            for (int i = 0; i < HANDICAP && currentSpot < firstRow.length; i++) {
                 firstRow[currentSpot++] = new ParkingSpot("Handicap");
             }
-            for (int i = 0; i < 20 && currentSpot < firstRow.length; i++) {
+            for (int i = 0; i < OVERSIZED && currentSpot < firstRow.length; i++) {
                 firstRow[currentSpot++] = new ParkingSpot("Oversized");
             }
-            for (int i = 0; i < 50 && currentSpot < firstRow.length; i++) {
+            for (int i = 0; i < EV && currentSpot < firstRow.length; i++) {
                 firstRow[currentSpot++] = new ParkingSpot("EV");
             }
-            for (int i = 0; i < 50 && currentSpot < firstRow.length; i++) {
+            for (int i = 0; i < CARPOOL && currentSpot < firstRow.length; i++) {
                 firstRow[currentSpot++] = new ParkingSpot("Carpool");
             }
         }
@@ -42,7 +42,7 @@ public class ParkingGarage {
     }
 
     public static void main(String[] args) {
-        ParkingGarage parkingGarage = new ParkingGarage(4, 198);
+        ParkingGarage parkingGarage = new ParkingGarage(4, 198,20,20,50,50);
 
         // Print the parking lot layout after types have been assigned
         parkingGarage.printParkingLot();
