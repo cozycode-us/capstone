@@ -31,7 +31,14 @@ public class Main {
 
                 Car car = new Car(reg,color,model,make,type);
 
+                jumpmanJunction.assignSpace(car);
+
             } else if (response.equals("l")) {
+
+                System.out.println("What is your car's registration number?");
+                String reg = sc.nextLine();
+
+                jumpmanJunction.leaveSpace(reg);
 
             } else {
                 System.out.println("Oops, that didn't work. Make sure you are inputting 'f' or 'l'.");
