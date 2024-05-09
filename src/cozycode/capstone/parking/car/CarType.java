@@ -1,4 +1,4 @@
-package cozycode.capstone.parking;
+package cozycode.capstone.parking.car;
 
 public enum CarType {
     HANDICAP,
