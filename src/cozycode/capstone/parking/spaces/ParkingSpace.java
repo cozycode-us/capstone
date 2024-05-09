@@ -16,6 +16,10 @@ public class ParkingSpace {
         return type;
     }
 
+    public Car getCar() {
+        return car;
+    }
+
     public boolean isAvailable() {
         return available;
     }
