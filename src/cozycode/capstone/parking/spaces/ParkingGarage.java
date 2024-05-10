@@ -48,7 +48,7 @@ public class ParkingGarage {
                 if (space != null) {
                     System.out.print(space.getType().toString().charAt(0) + (space.isAvailable() ? " " : "X "));
                 } else {
-                    // If the ParkingSpace object is null, print a placeholder
+                    // If null, print a placeholder
                     System.out.print("- ");
                 }
             }
@@ -63,7 +63,7 @@ public class ParkingGarage {
     }
     public static void main(String[] args) {
         ParkingGarage parkingGarage = new ParkingGarage(4, 198);
-        parkingGarage.initializeParkingGarage(20, 20, 50, 50); // Example counts for each car type in row 1
+        parkingGarage.initializeParkingGarage(20, 20, 50, 50); // counts for each car type in row 1
         parkingGarage.printParkingGarage();
 
 
