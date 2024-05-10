@@ -1,6 +1,6 @@
-package cozycode.capstone.parking.spaces;
+package cozycode.capstone.parking;
 import cozycode.capstone.parking.car.*;
-
+import cozycode.capstone.parking.spaces.*;
 public class ParkingGarage {
 
     private ParkingSpace[][] spaces;
