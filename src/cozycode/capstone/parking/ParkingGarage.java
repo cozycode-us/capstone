@@ -1,20 +1,21 @@
 package cozycode.capstone.parking;
+
 import cozycode.capstone.parking.car.*;
 import cozycode.capstone.parking.spaces.*;
-import java.util.ArrayList;
-import java.io.*;
+
 public class ParkingGarage {
 
-    private ParkingSpace[][] spaces;
+    private final ParkingSpace[][] spaces;
 
     public ParkingGarage(int rows, int cols) {
         spaces = new ParkingSpace[rows][cols];
     }
 
-    // Method to initialize the parking garage with ParkingSpace objects
+    // Method to initialize ParkingSpace objects
     private int posCounter = 0;
+
     public void initializeParkingGarage(int handicapCount, int oversizeCount, int evCount, int carpoolCount) {
-        // Initialize the first row with the specified number of each car type
+        // set up each car type
 
         for (int j = 0; j < spaces[0].length; j++) {
             CarType type;
@@ -31,22 +32,22 @@ public class ParkingGarage {
                 type = CarType.CARPOOL;
                 carpoolCount--;
             } else {
-                // If all counts are zero, default to regular type
+                //default to regular type
                 type = CarType.REGULAR;
             }
-            posCounter ++;
+            posCounter++;
             spaces[0][j] = new ParkingSpace(type, posCounter);
         }
 
-        // Initialize regular type
+        // Initialize regular
         for (int i = 1; i < spaces.length; i++) {
             for (int j = 0; j < spaces[i].length; j++) {
-                spaces[i][j] = new ParkingSpace(CarType.REGULAR);
+                spaces[i][j] = new ParkingSpace(CarType.REGULAR); // the spaces class supposedly cannot be used to reference the carType enum
             }
         }
     }
 
-    // Method to print array parking garage
+    // parking garage
     public void printParkingGarage() {
         for (ParkingSpace[] row : spaces) {
             for (ParkingSpace space : row) {
@@ -61,140 +62,38 @@ public class ParkingGarage {
         }
     }
 
-
     // retrieve a specific parking space
     public ParkingSpace getParkingSpace(int row, int col) {
         return spaces[row][col];
     }
+
+    public int assignSpace(Car car) {
+        for (ParkingSpace[] row : spaces) {
+            for (ParkingSpace space : row) {
+                if (space.getType() == car.getType() && space.isAvailable()) {
+                    space.setAvailable(false);
+                    return space.getPosition() + 1; // Return the column index +1
+                }
+            }
+        }
+        return -1; // Return -1 if  space is found
+    }
+/*
     public static void main(String[] args) {
         ParkingGarage parkingGarage = new ParkingGarage(4, 198);
         parkingGarage.initializeParkingGarage(20, 20, 50, 50); // counts for each car type in row 1
-        parkingGarage.printParkingGarage();
 
+        // Create a car to be assigned
+        Car = new Car("ABC123", "Red", "Toyota", "Corolla", CarType.REGULAR);
 
-    }
+        // Assign the car to a parking space
+        int assignedColumn = parkingGarage.assignSpace(car);
 
-
-    // assign & reserve a specific space to a specific car
-    public int assignSpace(Car car){
-        int counter = 0;
-        ArrayList<Car> typeList = new ArrayList<Car>();
-        ArrayList<Car> freeList = new ArrayList<Car>();
-
-
-        // for handicap cars
-        if (Car.carType() == CarType.HANDICAP){
-            // creates new list of applicable spots
-            for (int i = 0; i < spaces.length; i ++) {
-                for (int j = 0; j < spaces[i].length; j++) {
-                    if (space.getType() == CarType.HANDICAP) {
-                            typeList.add(space);
-                    }
-                }
-            }
-            // creates new list of applicable spots that are open
-            for (ArrayList[] space: typeList){
-                if(ParkingSpace.isAvailable == true){
-                    freeList.add(space);
-                }
-            }
-            ParkingSpace thisSpace = freeList.get(0);
-            thisSpace.assign(car);
-            serializeToFile(spaces, "parkingData.txt");
-            return thisSpace.getPosition();
+        // Print the result
+        if (assignedColumn != -1) {
+            System.out.println("Assigned parking space column: " + assignedColumn);
+        } else {
+            System.out.println("No available space of matching type found.");
         }
-
-        // for oversize cars
-        else if(Car.carType() == CarType.OVERSIZE){
-            // creates new list of applicable spots
-            for (int i = 0; i < spaces.length; i ++) {
-                for (int j = 0; j < spaces[i].length; j++) {
-                    if (space.getType() == CarType.OVERSIZE) {
-                        typeList.add(space);
-                    }
-                }
-            }
-            // creates new list of applicable spots that are open
-            for (ArrayList[] space: typeList){
-                if(ParkingSpace.isAvailable == true){
-                    freeList.add(space);
-                }
-            }
-            ParkingSpace thisSpace = freeList.get(0);
-            thisSpace.assign(car);
-            serializeToFile(spaces, "parkingData.txt");
-            return thisSpace.getPosition();
-        }
-
-        // for EVs
-        else if (Car.carType() == CarType.EV){
-            // creates new list of applicable spots
-            for (int i = 0; i < spaces.length; i ++) {
-                for (int j = 0; j < spaces[i].length; j++) {
-                    if (space.getType() == CarType.EV) {
-                        typeList.add(space);
-                    }
-                }
-            }
-            // creates new list of applicable spots that are open
-            for (ArrayList[] space: typeList){
-                if(ParkingSpace.isAvailable == true){
-                    freeList.add(space);
-                }
-            }
-            ParkingSpace thisSpace = freeList.get(0);
-            thisSpace.assign(car);
-            serializeToFile(spaces, "parkingData.txt");
-            return thisSpace.getPosition();
-        }
-
-        // for carpools
-        else if (Car.carType() == CarType.CARPOOL){
-            // creates new list of applicable spots
-            for (int i = 0; i < spaces.length; i ++) {
-                for (int j = 0; j < spaces[i].length; j++) {
-                    if (space.getType() == CarType.CARPOOL) {
-                        typeList.add(space);
-                    }
-                }
-            }
-            // creates new list of applicable spots that are open
-            for (ArrayList[] space: typeList){
-                if(ParkingSpace.isAvailable == true){
-                    freeList.add(space);
-                }
-            }
-            ParkingSpace thisSpace = freeList.get(0);
-            thisSpace.assign(car);
-            serializeToFile(spaces, "parkingData.txt");
-            return thisSpace.getPosition();
-        }
-
-        // for regulars and above types if specialty spots run out
-        else{
-            if(spaces.length == 0){
-                return -1;
-            }
-            else{
-                // creates new list of applicable spots
-                for (int i = 0; i < spaces.length; i ++) {
-                    for (int j = 0; j < spaces[i].length; j++) {
-                        if (space.getType() == CarType.REGULAR) {
-                            typeList.add(space);
-                        }
-                    }
-                }
-                // creates new list of applicable spots that are open
-                for (ArrayList[] space: typeList){
-                    if(ParkingSpace.isAvailable == true){
-                        freeList.add(space);
-                    }
-                }
-                ParkingSpace thisSpace = freeList.get(0);
-                thisSpace.assign(car);
-                serializeToFile(spaces, "parkingData.txt");
-                return thisSpace.getPosition();
-            }
-        }
-    }
+    } */
 }
