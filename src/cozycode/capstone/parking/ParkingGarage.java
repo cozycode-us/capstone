@@ -76,25 +76,25 @@ public class ParkingGarage {
 
 
     // assign & reserve a specific space to a specific car
-    public int assignSpace(Car car){
+    public int assignSpace(Car car) {
         int counter = 0;
         ArrayList<Car> typeList = new ArrayList<Car>();
         ArrayList<Car> freeList = new ArrayList<Car>();
 
 
         // for handicap cars
-        if (Car.carType() == CarType.HANDICAP){
+        if (Car.carType() == CarType.HANDICAP) {
             // creates new list of applicable spots
-            for (int i = 0; i < spaces.length; i ++) {
+            for (int i = 0; i < spaces.length; i++) {
                 for (int j = 0; j < spaces[i].length; j++) {
                     if (space.getType() == CarType.HANDICAP) {
-                            typeList.add(space);
+                        typeList.add(space);
                     }
                 }
             }
             // creates new list of applicable spots that are open
-            for (ArrayList[] space: typeList){
-                if(ParkingSpace.isAvailable == true){
+            for (ArrayList[] space : typeList) {
+                if (ParkingSpace.isAvailable == true) {
                     freeList.add(space);
                 }
             }
@@ -105,9 +105,9 @@ public class ParkingGarage {
         }
 
         // for oversize cars
-        else if(Car.carType() == CarType.OVERSIZE){
+        else if (Car.carType() == CarType.OVERSIZE) {
             // creates new list of applicable spots
-            for (int i = 0; i < spaces.length; i ++) {
+            for (int i = 0; i < spaces.length; i++) {
                 for (int j = 0; j < spaces[i].length; j++) {
                     if (space.getType() == CarType.OVERSIZE) {
                         typeList.add(space);
@@ -115,8 +115,8 @@ public class ParkingGarage {
                 }
             }
             // creates new list of applicable spots that are open
-            for (ArrayList[] space: typeList){
-                if(ParkingSpace.isAvailable == true){
+            for (ArrayList[] space : typeList) {
+                if (ParkingSpace.isAvailable == true) {
                     freeList.add(space);
                 }
             }
@@ -127,9 +127,9 @@ public class ParkingGarage {
         }
 
         // for EVs
-        else if (Car.carType() == CarType.EV){
+        else if (Car.carType() == CarType.EV) {
             // creates new list of applicable spots
-            for (int i = 0; i < spaces.length; i ++) {
+            for (int i = 0; i < spaces.length; i++) {
                 for (int j = 0; j < spaces[i].length; j++) {
                     if (space.getType() == CarType.EV) {
                         typeList.add(space);
@@ -137,8 +137,8 @@ public class ParkingGarage {
                 }
             }
             // creates new list of applicable spots that are open
-            for (ArrayList[] space: typeList){
-                if(ParkingSpace.isAvailable == true){
+            for (ArrayList[] space : typeList) {
+                if (ParkingSpace.isAvailable == true) {
                     freeList.add(space);
                 }
             }
@@ -149,9 +149,9 @@ public class ParkingGarage {
         }
 
         // for carpools
-        else if (Car.carType() == CarType.CARPOOL){
+        else if (Car.carType() == CarType.CARPOOL) {
             // creates new list of applicable spots
-            for (int i = 0; i < spaces.length; i ++) {
+            for (int i = 0; i < spaces.length; i++) {
                 for (int j = 0; j < spaces[i].length; j++) {
                     if (space.getType() == CarType.CARPOOL) {
                         typeList.add(space);
@@ -159,8 +159,8 @@ public class ParkingGarage {
                 }
             }
             // creates new list of applicable spots that are open
-            for (ArrayList[] space: typeList){
-                if(ParkingSpace.isAvailable == true){
+            for (ArrayList[] space : typeList) {
+                if (ParkingSpace.isAvailable == true) {
                     freeList.add(space);
                 }
             }
@@ -171,13 +171,12 @@ public class ParkingGarage {
         }
 
         // for regulars and above types if specialty spots run out
-        else{
-            if(spaces.length == 0){
+        else {
+            if (spaces.length == 0) {
                 return -1;
-            }
-            else{
+            } else {
                 // creates new list of applicable spots
-                for (int i = 0; i < spaces.length; i ++) {
+                for (int i = 0; i < spaces.length; i++) {
                     for (int j = 0; j < spaces[i].length; j++) {
                         if (space.getType() == CarType.REGULAR) {
                             typeList.add(space);
@@ -185,8 +184,8 @@ public class ParkingGarage {
                     }
                 }
                 // creates new list of applicable spots that are open
-                for (ArrayList[] space: typeList){
-                    if(ParkingSpace.isAvailable == true){
+                for (ArrayList[] space : typeList) {
+                    if (ParkingSpace.isAvailable == true) {
                         freeList.add(space);
                     }
                 }
@@ -197,4 +196,18 @@ public class ParkingGarage {
             }
         }
     }
+
+        /*
+         * Makes a space available when a user leaves it
+         */
+    public void leaveSpace(int id) {
+        for (ParkingSpace[] space : spaces) {
+            for (ParkingSpace parkingSpace : space) {
+                if (parkingSpace.getCar().getId() == id) {
+                    parkingSpace.free();
+                }
+            }
+        }
+    }
 }
+
