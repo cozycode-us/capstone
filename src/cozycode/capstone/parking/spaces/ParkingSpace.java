@@ -38,4 +38,10 @@ public class ParkingSpace {
         this.car = null;
         available = true;
     }
+
+    public void setAvailable(boolean b) {
+        available = b;
+    }
+
 }
+
