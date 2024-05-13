@@ -1,15 +1,16 @@
 package cozycode.capstone;
 
+import cozycode.capstone.parking.ParkingGarage;
 import cozycode.capstone.parking.car.Car;
 import cozycode.capstone.parking.car.CarType;
-
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
         //TODO: waiting on ParkingGarage class
-        ParkingGarage jumpmanJunction = new ParkingGarage(4,198,20,20,50,50,652);
+        ParkingGarage jumpmanJunction = new ParkingGarage(4,198);
+        jumpmanJunction.initializeParkingGarage(20,20,50,50);
 
         boolean exit = false;
         Scanner sc = new Scanner(System.in);
@@ -28,10 +29,23 @@ public class Main {
                 System.out.println("The model?");
                 String model = sc.nextLine();
                 CarType type = determineType(sc);
+                System.out.println("What is your Employee ID?");
+                int id = sc.nextInt();
+                sc.nextLine();
 
-                Car car = new Car(reg,color,model,make,type);
+                Car car = new Car(reg,color,model,make,type,id);
+
+                /* Returns the spot number associated with the assigned spot to be given to the driver.
+                If output is -1, there are no more spots remaining and the driver should be prompted to leave. */
+                int[] mySpot = jumpmanJunction.assignSpace(car);
 
             } else if (response.equals("l")) {
+
+                System.out.println("What is your Employee ID?");
+                int id = sc.nextInt();
+                sc.nextLine();
+
+                jumpmanJunction.leaveSpace(id);
 
             } else {
                 System.out.println("Oops, that didn't work. Make sure you are inputting 'f' or 'l'.");
@@ -88,8 +102,6 @@ public class Main {
                 return CarType.CARPOOL;
             }
         }
-
         return CarType.REGULAR;
     }
-
 }
