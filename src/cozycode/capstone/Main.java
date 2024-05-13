@@ -31,7 +31,9 @@ public class Main {
 
                 Car car = new Car(reg,color,model,make,type);
 
-                jumpmanJunction.assignSpace(car);
+                /* Returns the spot number associated with the assigned spot to be given to the driver.
+                If output is -1, there are no more spots remaining and the driver should be prompted to leave. */
+                String mySpot = jumpmanJunction.assignSpace(car);
 
             } else if (response.equals("l")) {
 
@@ -95,8 +97,6 @@ public class Main {
                 return CarType.CARPOOL;
             }
         }
-
         return CarType.REGULAR;
     }
-
 }
