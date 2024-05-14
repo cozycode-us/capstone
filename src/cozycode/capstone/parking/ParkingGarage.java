@@ -5,7 +5,7 @@ import cozycode.capstone.parking.spaces.*;
 
 public class ParkingGarage {
 
-    private final ParkingSpace[][] spaces;
+    private ParkingSpace[][] spaces;
 
     public ParkingGarage(int rows, int cols) {
         spaces = new ParkingSpace[rows][cols];
@@ -15,7 +15,7 @@ public class ParkingGarage {
     private int posCounter = 0;
 
     public void initializeParkingGarage(int handicapCount, int oversizeCount, int evCount, int carpoolCount) {
-        // set up each car type
+        // Initialize the first row with the specified number of each car type
 
         for (int j = 0; j < spaces[0].length; j++) {
             CarType type;
@@ -32,7 +32,7 @@ public class ParkingGarage {
                 type = CarType.CARPOOL;
                 carpoolCount--;
             } else {
-                //default to regular type
+                // If all counts are zero, default to regular type
                 type = CarType.REGULAR;
             }
             posCounter++;
@@ -47,7 +47,7 @@ public class ParkingGarage {
         }
     }
 
-    // parking garage
+    // Method to print array parking garage
     public void printParkingGarage() {
         for (ParkingSpace[] row : spaces) {
             for (ParkingSpace space : row) {
@@ -61,6 +61,7 @@ public class ParkingGarage {
             System.out.println();
         }
     }
+
 
     // retrieve a specific parking space
     public ParkingSpace getParkingSpace(int row, int col) {
