@@ -7,14 +7,9 @@ public class ParkingSpace {
     private final CarType type;
     private boolean available = true;
     private Car car;
-    private int position;
 
-    public ParkingSpace(CarType type, int posCounter) {
+    public ParkingSpace(CarType type) {
         this.type = type;
-        this.position = posCounter;
-    }
-    public int getPosition() {
-        return position;
     }
 
     public CarType getType() {

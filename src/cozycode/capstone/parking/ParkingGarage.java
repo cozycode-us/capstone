@@ -35,8 +35,7 @@ public class ParkingGarage {
                 // If all counts are zero, default to regular type
                 type = CarType.REGULAR;
             }
-            posCounter++;
-            spaces[0][j] = new ParkingSpace(type, posCounter);
+
         }
 
         // Initialize regular
@@ -68,16 +67,22 @@ public class ParkingGarage {
         return spaces[row][col];
     }
 
-    public int assignSpace(Car car) {
+    public int[] assignSpace(Car car) {
+        int index = 1;
         for (ParkingSpace[] row : spaces) {
+            int poopoo = 1;
             for (ParkingSpace space : row) {
                 if (space.getType() == car.getType() && space.isAvailable()) {
                     space.setAvailable(false);
-                    return space.getPosition() + 1; // Return the column index +1
+                    int[] linus = {index, poopoo};
+                    return linus;
                 }
+                poopoo++;
             }
+            index++;
         }
-        return -1; // Return -1 if  space is found
+        int[] shyla = {-1,-1} ;
+        return shyla; // Return -1 if  space is found
     }
 /*
     public static void main(String[] args) {
