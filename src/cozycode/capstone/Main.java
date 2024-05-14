@@ -1,4 +1,5 @@
 package cozycode.capstone;
+import cozycode.capstone.parking.ParkingGarage;
 
 import cozycode.capstone.parking.ParkingGarage;
 import cozycode.capstone.parking.car.Car;

@@ -13,21 +13,9 @@ public class ParkingSpace {
     private final CarType type;
     private boolean available = true;
     private Car car;
-    // ! Position does not seem to be required with current implementation, remove?
-    private int position;
 
-    // * Instantiates a ParkingSpace Object with the specified type and position
-    // ! Remove position?
-    public ParkingSpace(CarType type, int posCounter) {
+    public ParkingSpace(CarType type) {
         this.type = type;
-        this.position = posCounter;
-    }
-
-    // Getter methods
-
-    // ! Possibly obsolete, returns position
-    public int getPosition() {
-        return position;
     }
 
     public CarType getType() {
@@ -54,4 +42,10 @@ public class ParkingSpace {
         this.car = null;
         available = true;
     }
+
+    public void setAvailable(boolean b) {
+        available = b;
+    }
+
 }
+
