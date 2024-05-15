@@ -2,6 +2,7 @@ package cozycode.capstone.parking;
 
 import cozycode.capstone.parking.car.*;
 import cozycode.capstone.parking.spaces.*;
+import cozycode.capstone.ticketing.Ticket;
 
 public class ParkingGarage {
 
@@ -65,21 +66,21 @@ public class ParkingGarage {
         return spaces[row][col];
     }
 
-    public int[] assignSpace(Car car) {
+    public Ticket assignSpace(Car car) {
         int counter = 1;
         for (ParkingSpace[] row : spaces) {
             int poopoo = 1;
             for (ParkingSpace space : row) {
                 if (space.getType() == car.getType() && space.isAvailable()) {
                     space.setAvailable(false);
-                    int[] linus = {counter, poopoo};
+                    Ticket linus = new Ticket(counter,poopoo,car);
                     return linus;
                 }
                 poopoo++;
             }
             counter++;
         }
-        int[] shyla = {-1,-1} ;
+        Ticket shyla = new Ticket(-1,-1) ;
         return shyla; // Return -1 if  space is found
     }
 
