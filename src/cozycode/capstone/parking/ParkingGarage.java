@@ -82,22 +82,14 @@ public class ParkingGarage {
         int[] shyla = {-1,-1} ;
         return shyla; // Return -1 if  space is found
     }
-/*
-    public static void main(String[] args) {
-        ParkingGarage parkingGarage = new ParkingGarage(4, 198);
-        parkingGarage.initializeParkingGarage(20, 20, 50, 50); // counts for each car type in row 1
 
-        // Create a car to be assigned
-        Car = new Car("ABC123", "Red", "Toyota", "Corolla", CarType.REGULAR);
-
-        // Assign the car to a parking space
-        int assignedColumn = parkingGarage.assignSpace(car);
-
-        // Print the result
-        if (assignedColumn != -1) {
-            System.out.println("Assigned parking space column: " + assignedColumn);
-        } else {
-            System.out.println("No available space of matching type found.");
+    public void leaveSpace(int id) {
+        for (ParkingSpace[] arr : spaces) {
+            for (ParkingSpace space : arr) {
+                if (space.getCar().getId() == id) {
+                    space.free();
+                }
+            }
         }
-    } */
+    }
 }
