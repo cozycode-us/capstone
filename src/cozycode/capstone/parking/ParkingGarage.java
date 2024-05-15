@@ -12,8 +12,6 @@ public class ParkingGarage {
     }
 
     // Method to initialize ParkingSpace objects
-    private int posCounter = 0;
-
     public void initializeParkingGarage(int handicapCount, int oversizeCount, int evCount, int carpoolCount) {
         // Initialize the first row with the specified number of each car type
 
@@ -35,7 +33,7 @@ public class ParkingGarage {
                 // If all counts are zero, default to regular type
                 type = CarType.REGULAR;
             }
-
+            spaces[0][j] = new ParkingSpace(type);
         }
 
         // Initialize regular
@@ -68,18 +66,18 @@ public class ParkingGarage {
     }
 
     public int[] assignSpace(Car car) {
-        int index = 1;
+        int counter = 1;
         for (ParkingSpace[] row : spaces) {
             int poopoo = 1;
             for (ParkingSpace space : row) {
                 if (space.getType() == car.getType() && space.isAvailable()) {
                     space.setAvailable(false);
-                    int[] linus = {index, poopoo};
+                    int[] linus = {counter, poopoo};
                     return linus;
                 }
                 poopoo++;
             }
-            index++;
+            counter++;
         }
         int[] shyla = {-1,-1} ;
         return shyla; // Return -1 if  space is found
