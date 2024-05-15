@@ -4,6 +4,8 @@ import cozycode.capstone.parking.ParkingGarage;
 import cozycode.capstone.parking.ParkingGarage;
 import cozycode.capstone.parking.car.Car;
 import cozycode.capstone.parking.car.CarType;
+import cozycode.capstone.ticketing.Ticket;
+
 import java.util.Scanner;
 
 public class Main {
@@ -50,8 +52,8 @@ public class Main {
                 // Instantiates a Car Object using the information provided
                 Car car = new Car(reg,color,model,make,type,id);
 
-                // * Assigns the spot and returns the spot assigned in form {floor, space #}
-                int[] mySpot = jumpmanJunction.assignSpace(car);
+                // * Assigns the spot and returns the spot assigned
+                Ticket mySpot = jumpmanJunction.assignSpace(car);
 
                 //TODO: Tell the user what spot they were assigned
 

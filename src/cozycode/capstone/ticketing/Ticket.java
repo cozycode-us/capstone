@@ -18,6 +18,12 @@ public class Ticket {
         this.car = car;
     }
 
+    public Ticket(int floor,int number) {
+        this.floor = floor;
+        this.number = number;
+        this.car = null;
+    }
+
     public int getFloor() {
         return floor;
     }
