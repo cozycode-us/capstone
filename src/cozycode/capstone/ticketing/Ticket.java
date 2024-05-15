@@ -28,6 +28,7 @@ public class Ticket {
         return floor;
     }
 
+    // ? Should this return number or the full parking space number
     public int getNumber() {
         return number;
     }

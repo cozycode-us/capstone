@@ -27,4 +27,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - name: Test compile
-        run: javac ./src/cozycode/capstone/Main.java
+        run: cd ./src; javac ./cozycode/capstone/Main.java
