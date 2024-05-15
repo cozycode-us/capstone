@@ -2,7 +2,7 @@ package cozycode.capstone.parking.car;
 
 /*
  * Car class
- * Stores information regarding an employee's car at a parking space
+ * Stores information regarding an employee's car at a parking space sfgjios
  */
 public class Car {
 
