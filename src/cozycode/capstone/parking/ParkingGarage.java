@@ -73,9 +73,8 @@ public class ParkingGarage {
 
     //* Method to assign a specific parking space to the currently entering car
     //! Code to save parking space status between program runs not implemented
-    public int[] assignSpace(Car car) {
-        int index = 1;
-
+    public Ticket assignSpace(Car car) {
+        int counter = 1;
         for (ParkingSpace[] row : spaces) {
             int poopoo = 1;
             for (ParkingSpace space : row) {
