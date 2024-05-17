@@ -4,18 +4,23 @@ import cozycode.capstone.parking.car.*;
 import cozycode.capstone.parking.spaces.*;
 import cozycode.capstone.ticketing.Ticket;
 
+/*
+ * Parking Garage Class
+ * Initializes Parking Garage and defines all functions of the Parking Garage
+ */
 public class ParkingGarage {
 
     private ParkingSpace[][] spaces;
 
+    //Method to turn the list 'spaces' into a parking garage of custom size
     public ParkingGarage(int rows, int cols) {
         spaces = new ParkingSpace[rows][cols];
     }
 
     // Method to initialize ParkingSpace objects
     public void initializeParkingGarage(int handicapCount, int oversizeCount, int evCount, int carpoolCount) {
-        // Initialize the first row with the specified number of each car type
 
+        // Initialize the first row with the specified number of each car type
         for (int j = 0; j < spaces[0].length; j++) {
             CarType type;
             if (handicapCount > 0) {
@@ -61,11 +66,13 @@ public class ParkingGarage {
     }
 
 
-    // retrieve a specific parking space
+    // Method to retrieve a specific parking space
     public ParkingSpace getParkingSpace(int row, int col) {
         return spaces[row][col];
     }
 
+    //* Method to assign a specific parking space to the currently entering car
+    //! Code to save parking space status between program runs not implemented
     public Ticket assignSpace(Car car) {
         int counter = 1;
         for (ParkingSpace[] row : spaces) {
@@ -84,6 +91,8 @@ public class ParkingGarage {
         return shyla; // Return -1 if  space is found
     }
 
+
+    //*Method to clear a specific parking space of the currently leaving car
     public void leaveSpace(int id) {
         for (ParkingSpace[] arr : spaces) {
             for (ParkingSpace space : arr) {
