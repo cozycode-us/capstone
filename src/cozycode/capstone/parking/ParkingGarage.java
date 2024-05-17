@@ -4,6 +4,8 @@ import cozycode.capstone.parking.car.*;
 import cozycode.capstone.parking.spaces.*;
 import cozycode.capstone.ticketing.Ticket;
 
+import java.util.Scanner;
+
 /*
  * Parking Garage Class
  * Initializes Parking Garage and defines all functions of the Parking Garage
@@ -73,14 +75,18 @@ public class ParkingGarage {
 
     //* Method to assign a specific parking space to the currently entering car
     //! Code to save parking space status between program runs not implemented
+    //? Make more complex trickle down prioritization system?
     public Ticket assignSpace(Car car) {
         int counter = 1;
         for (ParkingSpace[] row : spaces) {
             int poopoo = 1;
             for (ParkingSpace space : row) {
-                if (space.getType() == car.getType() && space.isAvailable()) {
-                    space.setAvailable(false);
-                    Ticket linus = new Ticket(counter,poopoo,car);
+                // Checks if space matches car type, if not checks if it is a regular spot as a backup
+                if (space.getType().equals(car.getType()) && space.isAvailable() || space.getType().equals(CarType.REGULAR) && space.isAvailable()) {
+                    space.assign(car);
+                    System.out.println(space.getCar());
+                    car.setSpotNumber(counter * 1000 + poopoo);
+                    Ticket linus = new Ticket(counter,poopoo,car,space.getType());
                     return linus;
                 }
                 poopoo++;
@@ -92,14 +98,35 @@ public class ParkingGarage {
     }
 
 
-    //*Method to clear a specific parking space of the currently leaving car
-    public void leaveSpace(int id) {
+    //* Method to clear a specific parking space of the currently leaving car
+    //* id is an Employee ID, if check is true, it will verify with the employee that it is their car.
+    //* Returns a negative value when there is an issue in freeing the parking spot, 0 otherwise
+    public int leaveSpace(int id, boolean check) {
         for (ParkingSpace[] arr : spaces) {
             for (ParkingSpace space : arr) {
+                if (space.getCar() == null) {
+                    continue;
+                }
                 if (space.getCar().getId() == id) {
+                    // Asks the user if it is their car
+                    if (check) {
+                        System.out.println("Parking Space " + space.getCar().getSpotNumber());
+                        System.out.println("Car Model: " + space.getCar().getMake() + " " + space.getCar().getModel());
+                        System.out.println("Car Color: " + space.getCar().getColor());
+                        System.out.println("Car Registration Number: " + space.getCar().getRegistration());
+
+                        System.out.println("\nDoes this seem like the correct car? (y/n)");
+                        Scanner sc = new Scanner(System.in);
+                        if (sc.nextLine().equals("n")) {
+                            return -2;
+                        }
+                    }
+
                     space.free();
+                    return 0;
                 }
             }
         }
+        return -1;
     }
 }
