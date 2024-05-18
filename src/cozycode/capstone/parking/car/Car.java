@@ -14,6 +14,7 @@ public class Car {
     private final String make;
     private final CarType type;
     private final int id;
+    private int spotNumber;
 
     // * Instantiates a Car Object with the specified attributes
     public Car(String regNum, String color, String model, String make, CarType type, int id) {
@@ -48,5 +49,13 @@ public class Car {
 
     public int getId() {
         return id;
+    }
+
+    public int getSpotNumber() {
+        return spotNumber;
+    }
+
+    public void setSpotNumber(int spotNumber) {
+        this.spotNumber = spotNumber;
     }
 }

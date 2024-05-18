@@ -1,6 +1,7 @@
 package cozycode.capstone.ticketing;
 
 import cozycode.capstone.parking.car.Car;
+import cozycode.capstone.parking.car.CarType;
 
 public class Ticket {
 
@@ -11,17 +12,21 @@ public class Ticket {
     private final int number;
     // Employee's car
     private final Car car;
+    // Type of parking spot
+    private final CarType type;
 
-    public Ticket(int floor, int number, Car car) {
+    public Ticket(int floor, int number, Car car, CarType type) {
         this.floor = floor;
-        this.number = number;
+        this.number = number + floor * 1000;
         this.car = car;
+        this.type = type;
     }
 
     public Ticket(int floor,int number) {
         this.floor = floor;
         this.number = number;
         this.car = null;
+        this.type = null;
     }
 
     public int getFloor() {
@@ -35,5 +40,9 @@ public class Ticket {
 
     public Car getCar() {
         return car;
+    }
+
+    public CarType getType() {
+        return type;
     }
 }
