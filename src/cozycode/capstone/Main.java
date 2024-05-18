@@ -1,5 +1,4 @@
 package cozycode.capstone;
-import cozycode.capstone.parking.ParkingGarage;
 
 import cozycode.capstone.parking.ParkingGarage;
 import cozycode.capstone.parking.car.Car;
@@ -34,8 +33,6 @@ public class Main {
             String response = sc.nextLine();
             if (response.equals("f")) {
                 // * Asks user for identifying information
-                // ? How should we use most of this information? The project requirements need it but where can we use it?
-                // ? Perhaps when checking out it could display it to the user to verify it is the correct car
                 System.out.println("What is your car's registration number?");
                 String reg = sc.nextLine();
                 System.out.println("What is your car's color?");
@@ -55,7 +52,35 @@ public class Main {
                 // * Assigns the spot and returns the spot assigned
                 Ticket mySpot = jumpmanJunction.assignSpace(car);
 
-                //TODO: Tell the user what spot they were assigned
+                // Prints out the parking ticket information
+                System.out.println("\nParking Assignment:");
+                System.out.println("Car Model: " + mySpot.getCar().getMake() + " " + mySpot.getCar().getModel());
+                System.out.println("Floor: " + mySpot.getFloor());
+                System.out.println("Space #: " + mySpot.getNumber());
+                System.out.println("Space Type: " + mySpot.getType() + "\n");
+
+                // Checks with the user if the spot is OK
+                if (!mySpot.getType().equals(mySpot.getCar().getType())) {
+                    System.out.println("Note: You did not get a spot of the requested type! Is this spot still acceptable? (y/n)");
+                    System.out.println("Responding with 'n' will cancel your parking assignment.");
+                    String input = sc.nextLine();
+                    if (input.equals("n")) {
+                        jumpmanJunction.leaveSpace(mySpot.getCar().getId(), false);
+                        System.out.println("Your parking assignment has been successfully canceled.\n");
+                    } else {
+                        System.out.println("Great, we apologize for the inconvenience. You may head to your parking spot.\n");
+                    }
+                } else {
+                    System.out.println("You got a spot of the requested type! Is this spot acceptable? (y/n)");
+                    System.out.println("Responding with 'n' will cancel your parking assignment.");
+                    String input = sc.nextLine();
+                    if (input.equals("n")) {
+                        jumpmanJunction.leaveSpace(mySpot.getCar().getId(), false);
+                        System.out.println("Your parking assignment has been successfully canceled.\n");
+                    } else {
+                        System.out.println("Great! You may head to your parking spot.\n");
+                    }
+                }
 
             } else if (response.equals("l")) {
 
@@ -64,15 +89,27 @@ public class Main {
                 int id = sc.nextInt();
                 sc.nextLine();
 
-                jumpmanJunction.leaveSpace(id);
+                // Tries to free the spot
+                int successful = jumpmanJunction.leaveSpace(id, true);
 
-                // ? Should we display the car's information corresponding with the employee ID here before freeing the space to verify it's the right one?
+                /*
+                 * If the user typed in an ID not tied to a parking spot, successful == -1
+                 * If the user said the corresponding car was not theirs, successful == -2
+                 * If the user said everything looks good, successful == 0
+                 */
+                if(successful == -1) {
+                    System.out.println("There was an error freeing your parking space. Please make sure you entered your ID correctly.");
+                } else if (successful == -2) {
+                    System.out.println("Successfully canceled operation. Make sure you inputted your ID correctly.");
+                } else {
+                    System.out.println("Thank you for visiting Jumpman Junction! Your parking space has been successfully unassigned.");
+                }
+
 
             } else {
 
                 // If the user didn't input a valid option, give clearer instructions
-                System.out.println("Oops, that didn't work. Make sure you are inputting 'f' or 'l'.");
-                continue;
+                System.out.println("Oops, that didn't work. Make sure you are inputting 'f' for finding a spot or 'l' for leaving.");
             }
 
         }
