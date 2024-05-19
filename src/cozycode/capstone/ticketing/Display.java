@@ -15,7 +15,6 @@ public class Display {
     private JTextArea outputArea;
     private JTextField regField, colorField, makeField, modelField, idField;
     private JComboBox<CarType> carTypeBox;
-    private JCheckBox handicapPermitCheckBox;
     private JPanel handicapPanel;
     private final ParkingGarage jumpmanJunction;
 
@@ -41,8 +40,8 @@ public class Display {
     private void setupOutputArea() {
         outputArea = new JTextArea();
         outputArea.setEditable(false);
-        outputArea.setBackground(new Color(173, 216, 230)); // Ligh blue color
-        outputArea.setForeground(Color.WHITE);
+        outputArea.setBackground(new Color(173, 216, 230)); // Light blue color
+        outputArea.setForeground(Color.BLACK);
         outputArea.setFont(new Font("Arial", Font.PLAIN, 16));
         outputArea.setLineWrap(true);
         outputArea.setWrapStyleWord(true);
@@ -52,7 +51,7 @@ public class Display {
 
     private void setupInputPanel() {
         JPanel inputPanel = new JPanel();
-        inputPanel.setBackground(new Color(173, 216, 230)); // Light blue color
+        inputPanel.setBackground(new Color(173, 216, 230));
         inputPanel.setLayout(new GridLayout(7, 2, 5, 5));
 
         JLabel regLabel = new JLabel("Car Registration:", SwingConstants.RIGHT);
@@ -100,16 +99,9 @@ public class Display {
 
         // Handicap permit panel (initially hidden)
         handicapPanel = new JPanel();
-        handicapPanel.setBackground(new Color(173, 216, 230)); // Light blue color
+        handicapPanel.setBackground(new Color(173, 216, 230));
         handicapPanel.setLayout(new GridLayout(1, 2, 5, 5));
         handicapPanel.setVisible(false);
-
-        JLabel handicapLabel = new JLabel("Handicap Permit:", SwingConstants.RIGHT);
-        handicapLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        handicapPanel.add(handicapLabel);
-        handicapPermitCheckBox = new JCheckBox();
-        handicapPermitCheckBox.setBackground(new Color(173, 216, 230)); // Light blue color
-        handicapPanel.add(handicapPermitCheckBox);
 
         inputPanel.add(new JLabel()); // Placeholder for layout consistency
         inputPanel.add(handicapPanel);
@@ -154,12 +146,6 @@ public class Display {
             CarType type = (CarType) carTypeBox.getSelectedItem();
             int id = Integer.parseInt(idField.getText());
 
-            if (type == CarType.HANDICAP && !handicapPermitCheckBox.isSelected()) {
-                JOptionPane.showMessageDialog(frame, "You must have a handicap permit to select a handicap space.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
             Car car = new Car(reg, color, model, make, type, id);
             Ticket mySpot = jumpmanJunction.assignSpace(car);
 
@@ -170,7 +156,7 @@ public class Display {
             outputArea.append("Space Type: " + mySpot.getType() + "\n");
 
             if (!mySpot.getType().equals(mySpot.getCar().getType())) {
-                int choice = JOptionPane.showConfirmDialog(null,
+                int choice = JOptionPane.showConfirmDialog(frame,
                         "You did not get a spot of the requested type! Is this spot still acceptable?",
                         "Spot Type Mismatch",
                         JOptionPane.YES_NO_OPTION);
@@ -182,7 +168,7 @@ public class Display {
                     outputArea.append("Great, we apologize for the inconvenience. You may head to your parking spot.\n");
                 }
             } else {
-                int choice = JOptionPane.showConfirmDialog(null,
+                int choice = JOptionPane.showConfirmDialog(frame,
                         "You got a spot of the requested type! Is this spot acceptable?",
                         "Spot Assignment",
                         JOptionPane.YES_NO_OPTION);
@@ -194,6 +180,8 @@ public class Display {
                     outputArea.append("Great! You may head to your parking spot.\n");
                 }
             }
+            pause(4);
+            clearFieldsAndOutput();
         }
     }
     private class LeaveSpotActionListener implements ActionListener {
@@ -216,6 +204,28 @@ public class Display {
             } else if (result == -2) {
                 outputArea.append("Successfully canceled operation. Make sure you inputted your ID correctly.\n");
             }
+            pause(4);
+            clearFieldsAndOutput();
+        }
+    }
+    private void clearFieldsAndOutput() {
+        regField.setText("");
+        colorField.setText("");
+        makeField.setText("");
+        modelField.setText("");
+        idField.setText("");
+        carTypeBox.setSelectedIndex(0);
+        outputArea.setText("");
+    }
+
+    public static void pause(int seconds) {
+        try {
+            // Convert seconds to milliseconds and pause
+            Thread.sleep(seconds * 1000L);
+        } catch (InterruptedException e) {
+            // Handle the exception
+            Thread.currentThread().interrupt();
+            System.err.println("Pause was interrupted");
         }
     }
 }
