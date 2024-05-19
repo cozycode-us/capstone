@@ -4,6 +4,8 @@ import cozycode.capstone.parking.car.*;
 import cozycode.capstone.parking.spaces.*;
 import cozycode.capstone.ticketing.Ticket;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Scanner;
 
 /*
@@ -101,7 +103,7 @@ public class ParkingGarage {
     //* Method to clear a specific parking space of the currently leaving car
     //* id is an Employee ID, if check is true, it will verify with the employee that it is their car.
     //* Returns a negative value when there is an issue in freeing the parking spot, 0 otherwise
-    public int leaveSpace(int id, boolean check) {
+    public int leaveSpace(int id, boolean check, Component parentComponent) {
         for (ParkingSpace[] arr : spaces) {
             for (ParkingSpace space : arr) {
                 if (space.getCar() == null) {
@@ -110,14 +112,23 @@ public class ParkingGarage {
                 if (space.getCar().getId() == id) {
                     // Asks the user if it is their car
                     if (check) {
-                        System.out.println("Parking Space " + space.getCar().getSpotNumber());
-                        System.out.println("Car Model: " + space.getCar().getMake() + " " + space.getCar().getModel());
-                        System.out.println("Car Color: " + space.getCar().getColor());
-                        System.out.println("Car Registration Number: " + space.getCar().getRegistration());
+                        String carDetails = String.format(
+                                "Parking Space: %s\nCar Model: %s %s\nCar Color: %s\nCar Registration Number: %s\n\nDoes this seem like the correct car?",
+                                space.getCar().getSpotNumber(),
+                                space.getCar().getMake(),
+                                space.getCar().getModel(),
+                                space.getCar().getColor(),
+                                space.getCar().getRegistration()
+                        );
 
-                        System.out.println("\nDoes this seem like the correct car? (y/n)");
-                        Scanner sc = new Scanner(System.in);
-                        if (sc.nextLine().equals("n")) {
+                        int choice = JOptionPane.showConfirmDialog(
+                                parentComponent,
+                                carDetails,
+                                "Confirm Car Details",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        if (choice == JOptionPane.NO_OPTION) {
                             return -2;
                         }
                     }
@@ -129,4 +140,4 @@ public class ParkingGarage {
         }
         return -1;
     }
-}
+    }
