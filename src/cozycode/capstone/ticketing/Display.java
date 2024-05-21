@@ -16,7 +16,6 @@ public class Display {
     private JTextArea outputArea;
     private JTextField regField, colorField, makeField, modelField, idField;
     private JComboBox<CarType> carTypeBox;
-    private JCheckBox handicapPermitCheckBox;
     private JPanel handicapPanel;
     private final ParkingGarage jumpmanJunction;
 
@@ -208,13 +207,15 @@ public class Display {
             if (mySpot == null) {
                 outputArea.append("There are no spots available at this time, please try again later.\n");
             }
-            outputArea.append("\nParking Assignment:\n");
-            outputArea.append("Car Model: " + mySpot.getCar().getMake() + " " + mySpot.getCar().getModel() + "\n");
-            outputArea.append("Floor: " + mySpot.getFloor() + "\n");
-            outputArea.append("Space #: " + mySpot.getNumber() + "\n");
-            outputArea.append("Space Type: " + mySpot.getType() + "\n");
+            else {
+                outputArea.append("\nParking Assignment:\n");
+                outputArea.append("Car Model: " + mySpot.getCar().getMake() + " " + mySpot.getCar().getModel() + "\n");
+                outputArea.append("Floor: " + mySpot.getFloor() + "\n");
+                outputArea.append("Space #: " + mySpot.getNumber() + "\n");
+                outputArea.append("Space Type: " + mySpot.getType() + "\n");
 
-            handleSpotAssignment(mySpot);
+                handleSpotAssignment(mySpot);
+            }
         }
 
         private void handleSpotAssignment(Ticket mySpot) {
