@@ -205,7 +205,9 @@ public class Display {
 
             Car car = new Car(reg, color, model, make, type, id);
             Ticket mySpot = jumpmanJunction.assignSpace(car);
-
+            if (mySpot == null) {
+                outputArea.append("There are no spots available at this time, please try again later.\n");
+            }
             outputArea.append("\nParking Assignment:\n");
             outputArea.append("Car Model: " + mySpot.getCar().getMake() + " " + mySpot.getCar().getModel() + "\n");
             outputArea.append("Floor: " + mySpot.getFloor() + "\n");
