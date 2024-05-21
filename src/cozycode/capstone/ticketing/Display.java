@@ -16,6 +16,7 @@ public class Display {
     private JTextArea outputArea;
     private JTextField regField, colorField, makeField, modelField, idField;
     private JComboBox<CarType> carTypeBox;
+    private JCheckBox handicapPermitCheckBox;
     private JPanel handicapPanel;
     private final ParkingGarage jumpmanJunction;
 
@@ -27,6 +28,7 @@ public class Display {
     private void initialize() {
         frame = new JFrame("Parking Garage Management");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         frame.setSize(600, 700);
         frame.getContentPane().setBackground(Color.WHITE); // White background
         frame.setLayout(new BorderLayout());
@@ -43,11 +45,14 @@ public class Display {
         outputArea.setEditable(false);
         outputArea.setBackground(Color.WHITE); // White background
         outputArea.setForeground(Color.BLACK);
+
         outputArea.setFont(new Font("Arial", Font.PLAIN, 16));
         outputArea.setLineWrap(true);
         outputArea.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(outputArea);
+
         scrollPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+
         frame.add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -113,6 +118,7 @@ public class Display {
             case "Car Model:" -> modelField = textField;
             case "Employee ID:" -> idField = textField;
         }
+
     }
 
     private void setupButtonPanel() {
@@ -125,6 +131,7 @@ public class Display {
         buttonPanel.add(findSpotButton);
 
         JButton leaveSpotButton = createModernButton("Leave Spot");
+
         leaveSpotButton.addActionListener(new LeaveSpotActionListener());
         buttonPanel.add(leaveSpotButton);
 
@@ -185,12 +192,14 @@ public class Display {
             String make = makeField.getText();
             String model = modelField.getText();
             CarType type = (CarType) carTypeBox.getSelectedItem();
+
             int id;
 
             try {
                 id = Integer.parseInt(idField.getText());
             } catch (NumberFormatException ex) {
                 outputArea.append("Invalid input for ID. Please enter a valid ID.\n");
+
                 return;
             }
 
