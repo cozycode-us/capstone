@@ -140,4 +140,37 @@ public class ParkingGarage {
         }
         return -1;
     }
+
+    /*
+     * Returns the current available spaces of each type
+     * Return array is in form: {HANDICAP,OVERSIZE,EV,CARPOOL,REGULAR}
+     */
+    public int[] getCurrentSpaces() {
+        // initializes return array
+        int[] arr = {0,0,0,0,0};
+
+        // iterates through each parking space
+        for (ParkingSpace[] floor : spaces) {
+            for (ParkingSpace space : floor) {
+                // checks if space is available
+                if (space.isAvailable()) {
+                    // checks what type the space is in frequency order
+                    if (space.getType().equals(CarType.REGULAR)) {
+                        arr[4]++;
+                    } else if (space.getType().equals(CarType.EV)) {
+                        arr[2]++;
+                    } else if (space.getType().equals(CarType.CARPOOL)) {
+                        arr[3]++;
+                    } else if (space.getType().equals(CarType.HANDICAP)) {
+                        arr[0]++;
+                    } else if (space.getType().equals(CarType.OVERSIZE)) {
+                        arr[1]++;
+                    }
+                }
+            }
+        }
+
+        return arr;
     }
+
+}
