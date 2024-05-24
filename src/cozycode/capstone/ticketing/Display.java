@@ -16,7 +16,6 @@ public class Display {
     private JTextArea outputArea;
     private JTextField regField, colorField, makeField, modelField, idField;
     private JComboBox<CarType> carTypeBox;
-    private JPanel handicapPanel;
     private final ParkingGarage jumpmanJunction;
 
     public Display(ParkingGarage garage) {
@@ -29,7 +28,7 @@ public class Display {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         frame.setSize(600, 700);
-        frame.getContentPane().setBackground(Color.WHITE); // White background
+        frame.getContentPane().setBackground(Color.WHITE);
         frame.setLayout(new BorderLayout());
 
         setupOutputArea();
@@ -42,7 +41,7 @@ public class Display {
     private void setupOutputArea() {
         outputArea = new JTextArea();
         outputArea.setEditable(false);
-        outputArea.setBackground(Color.WHITE); // White background
+        outputArea.setBackground(Color.WHITE);
         outputArea.setForeground(Color.BLACK);
 
         outputArea.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -84,16 +83,6 @@ public class Display {
         gbc.gridy = 5;
         inputPanel.add(carTypeBox, gbc);
 
-        // Handicap permit panel (initially hidden)
-        handicapPanel = new JPanel();
-        handicapPanel.setBackground(Color.WHITE);
-        handicapPanel.setLayout(new GridLayout(1, 2, 5, 5));
-        handicapPanel.setVisible(false);
-        gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.gridwidth = 2;
-        inputPanel.add(handicapPanel, gbc);
-
         frame.add(inputPanel, BorderLayout.NORTH);
     }
 
@@ -122,7 +111,7 @@ public class Display {
 
     private void setupButtonPanel() {
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBackground(Color.WHITE); // White background
+        buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
 
         JButton findSpotButton = createModernButton("Find Spot");
@@ -130,10 +119,12 @@ public class Display {
         buttonPanel.add(findSpotButton);
 
         JButton leaveSpotButton = createModernButton("Leave Spot");
-
         leaveSpotButton.addActionListener(new LeaveSpotActionListener());
         buttonPanel.add(leaveSpotButton);
 
+        JButton statusUpdate = createModernButton("Status");
+        statusUpdate.addActionListener(new StatusUpdateActionListener());
+        buttonPanel.add(statusUpdate);
         frame.add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -142,11 +133,11 @@ public class Display {
             @Override
             protected void paintComponent(Graphics g) {
                 if (getModel().isArmed()) {
-                    g.setColor(Color.GRAY); // Darker grey on press
+                    g.setColor(Color.GRAY);
                 } else if (getModel().isRollover()) {
-                    g.setColor(Color.LIGHT_GRAY); // Lighter grey on hover
+                    g.setColor(Color.LIGHT_GRAY);
                 } else {
-                    g.setColor(Color.BLACK); // Normal black
+                    g.setColor(Color.BLACK);
                 }
                 g.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
                 super.paintComponent(g);
@@ -177,7 +168,6 @@ public class Display {
         @Override
         public void actionPerformed(ActionEvent e) {
             CarType selectedType = (CarType) carTypeBox.getSelectedItem();
-            handicapPanel.setVisible(selectedType == CarType.HANDICAP);
             frame.revalidate();
             frame.repaint();
         }
@@ -198,7 +188,6 @@ public class Display {
                 id = Integer.parseInt(idField.getText());
             } catch (NumberFormatException ex) {
                 outputArea.append("Invalid input for ID. Please enter a valid ID.\n");
-
                 return;
             }
 
@@ -206,14 +195,7 @@ public class Display {
             Ticket mySpot = jumpmanJunction.assignSpace(car);
             if (mySpot == null) {
                 outputArea.append("There are no spots available at this time, please try again later.\n");
-            }
-            else {
-                outputArea.append("\nParking Assignment:\n");
-                outputArea.append("Car Model: " + mySpot.getCar().getMake() + " " + mySpot.getCar().getModel() + "\n");
-                outputArea.append("Floor: " + mySpot.getFloor() + "\n");
-                outputArea.append("Space #: " + mySpot.getNumber() + "\n");
-                outputArea.append("Space Type: " + mySpot.getType() + "\n");
-
+            } else {
                 handleSpotAssignment(mySpot);
             }
         }
@@ -221,7 +203,12 @@ public class Display {
         private void handleSpotAssignment(Ticket mySpot) {
             boolean isCorrectType = mySpot.getType().equals(mySpot.getCar().getType());
             String message = isCorrectType ?
-                    "You got a spot of the requested type! Is this spot acceptable?" :
+                    "You got a spot of the requested type! \nParking Assignment:\n" +
+                            "Car Model: " + mySpot.getCar().getMake() + " " + mySpot.getCar().getModel() + "\n" +
+                            "Floor: " + mySpot.getFloor() + "\n" +
+                            "Space #: " + mySpot.getNumber() + "\n" +
+                            "Space Type: " + mySpot.getType() + "\n" +
+                            " Is this spot acceptable?" :
                     "You did not get a spot of the requested type! Is this spot still acceptable?";
             String title = isCorrectType ? "Spot Assignment" : "Spot Type Mismatch";
 
@@ -233,9 +220,6 @@ public class Display {
             } else {
                 outputArea.append("Great! You may head to your parking spot.\n");
             }
-
-            pause(4);
-            clearFieldsAndOutput();
         }
     }
 
@@ -261,6 +245,24 @@ public class Display {
             }
             pause(4);
             clearFieldsAndOutput();
+        }
+    }
+
+    private class StatusUpdateActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int[] statusUpdate = jumpmanJunction.getCurrentSpaces();
+            int handicap = statusUpdate[0];
+            int oversize = statusUpdate[1];
+            int EV = statusUpdate[2];
+            int carpool = statusUpdate[3];
+            int regular = statusUpdate[4];
+            String message = "Available Parking:\n" +
+                    "Handicap Spaces: " + handicap + "\n" +
+                    "Oversize Spaces: " + oversize + "\n" +
+                    "EV Spaces: " + EV + "\n" +
+                    "Carpool Spaces: " + carpool + "\n" +
+                    "Regular Spaces: " + regular;
+            JOptionPane.showMessageDialog(frame, message, "Parking Status", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
